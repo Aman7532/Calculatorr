@@ -12,10 +12,25 @@
     - name: Display Docker Pull Result
       debug:
         var: docker_pull_result
-        
-    - name: Start Docker service
-      service:
-        name: docker
+
+    - name: Remove Existing Container if Any
+      docker_container:
+        name: calculator
+        state: absent
+      ignore_errors: yes
+
+    - name: Run Calculator Container
+      docker_container:
+        name: calculator
+        image: "aman7532/calculator"
         state: started
-    - name: Running container
-      shell: docker run -it -d --name calculator aman7532/calculator
+        tty: yes  # Enables terminal-like behavior
+        interactive: yes  # Allows input
+        detach: yes  # Runs in background but still allows interaction
+
+#    - name: Start Docker service
+#      service:
+#        name: docker
+#        state: started
+#    - name: Running container
+#      shell: docker run -it -d --name calculator aman7532/calculator
