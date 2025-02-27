@@ -37,13 +37,17 @@ pipeline{
         }
 
 		
-		stage('Build Docker Image'){
-			steps{
-				script{
-					sh "/usr/local/bin/docker build -t ${DOCKER_IMAGE_NAME} ."
-				}
-			}
-		}
+		stage('Build Docker Image') {
+              steps {
+                 script {
+                            // Explicit Docker login
+                            withCredentials([usernamePassword(credentialsId: 'DockerHub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                                sh "/usr/local/bin/docker login -u $DOCKER_USER -p $DOCKER_PASS"
+                            }
+                            sh "/usr/local/bin/docker build -t ${DOCKER_IMAGE_NAME} ."
+                        }
+                    }
+        }
 		
 		stage('Push Docker Images'){
 			steps{
