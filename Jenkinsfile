@@ -48,16 +48,17 @@ pipeline{
                     }
                 }
 		
-		stage('Push Docker Images'){
-			steps{
-				script{
-					docker.withRegistry('', 'DockerHub') {
-						sh '/usr/local/bin/docker tag calculator aman7532/calculator:latest'
-						sh '/usr/local/bin/docker push aman7532/calculator'
-					}
-				}
-			}
-		}
+		stage('Push Docker Images') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'DockerHub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        sh 'echo "$DOCKER_PASS" | /usr/local/bin/docker login -u "$DOCKER_USER" --password-stdin'
+                    }
+                    sh "/usr/local/bin/docker tag calculator aman7532/calculator:latest"
+                    sh "/usr/local/bin/docker push aman7532/calculator:latest"
+                }
+            }
+        }
 		
                stage('Run Ansible playbook') {
               		steps {
