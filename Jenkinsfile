@@ -38,16 +38,15 @@ pipeline{
 
 		
 		stage('Build Docker Image') {
-              steps {
-                 script {
-                            // Explicit Docker login
+                    steps {
+                        script {
                             withCredentials([usernamePassword(credentialsId: 'DockerHub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                                sh "/usr/local/bin/docker login -u $DOCKER_USER -p $DOCKER_PASS"
+                                sh 'echo "$DOCKER_PASS" | /usr/local/bin/docker login -u "$DOCKER_USER" --password-stdin'
                             }
-                            sh "/usr/local/bin/docker build -t ${DOCKER_IMAGE_NAME} ."
+                            sh "/usr/local/bin/docker build -t calculator ."
                         }
                     }
-        }
+                }
 		
 		stage('Push Docker Images'){
 			steps{
