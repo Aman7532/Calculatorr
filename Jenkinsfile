@@ -26,11 +26,21 @@ pipeline{
 				}
 			}
 		}
+		stage('Debug Docker') {
+            steps {
+                script {
+                    sh 'whoami'
+                    sh 'docker version'
+                    sh 'docker info'
+                }
+            }
+        }
+
 		
 		stage('Build Docker Image'){
 			steps{
 				script{
-					docker.build("${DOCKER_IMAGE_NAME}",'.')
+					sh "docker build -t ${DOCKER_IMAGE_NAME} ."
 				}
 			}
 		}
