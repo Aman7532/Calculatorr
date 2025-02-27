@@ -30,8 +30,8 @@ pipeline{
             steps {
                 script {
                     sh 'whoami'
-                    sh 'docker version'
-                    sh 'docker info'
+                    sh '/usr/local/bin/docker version'  // Full path
+                    sh '/usr/local/bin/docker info'     // Full path
                 }
             }
         }
@@ -40,7 +40,7 @@ pipeline{
 		stage('Build Docker Image'){
 			steps{
 				script{
-					sh "docker build -t ${DOCKER_IMAGE_NAME} ."
+					sh "/usr/local/bin/docker build -t ${DOCKER_IMAGE_NAME} ."
 				}
 			}
 		}
@@ -49,8 +49,8 @@ pipeline{
 			steps{
 				script{
 					docker.withRegistry('', 'DockerHub') {
-						sh 'docker tag calculator aman7532/calculator:latest'
-						sh 'docker push aman7532/calculator'
+						sh '/usr/local/bin/docker tag calculator aman7532/calculator:latest'
+						sh '/usr/local/bin/docker push aman7532/calculator'
 					}
 				}
 			}
