@@ -63,7 +63,7 @@ pipeline{
                stage('Run Ansible playbook') {
                            steps {
                                script {
-                                   sh "/usr/local/bin/ansible-playbook deploy.yaml"
+                                   sh "/opt/homebrew/bin/ansible-playbook deploy.yaml"
                                }
                            }
                        }
