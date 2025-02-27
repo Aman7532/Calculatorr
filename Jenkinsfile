@@ -61,13 +61,11 @@ pipeline{
         }
 		
                stage('Run Ansible playbook') {
-              		steps {
-        			script {
-          				ansiblePlaybook(
-				            playbook: 'deploy.yaml'
-          				)
-        			}
-      			}
-    		}
+                           steps {
+                               script {
+                                   sh "/usr/local/bin/ansible-playbook deploy.yaml"
+                               }
+                           }
+                       }
 	}
 }							
