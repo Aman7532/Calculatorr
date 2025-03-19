@@ -28,9 +28,4 @@
         interactive: yes  # Allows input
         detach: yes  # Runs in background but still allows interaction
 
-#    - name: Start Docker service
-#      service:
-#        name: docker
-#        state: started
-#    - name: Running container
-#      shell: docker run -it -d --name calculator aman7532/calculator
+
